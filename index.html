@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie & Music Recommendation System</title>
+    <style>
+        /* Overall page styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #181818;
+        }
+
+        .logo h1 {
+            color: #e50914;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-bar input[type="text"],
+        .search-bar select {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #333;
+            color: white;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .results-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .movie-recommendations, .music-recommendations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .recommendation-card {
+            width: 250px;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .recommendation-card a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Movie & Music Rec</h1>
+        </div>
+        <div class="search-bar">
+            <form method="POST">
+                <input type="text" name="title_input" placeholder="Enter movie title..." />
+                <select name="genre_input">
+                    <option value="">Select Genre</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}">{{ genre }}</option>
+                    {% endfor %}
+                </select>
+                <select name="emotion">
+                    <option value="">Select Emotion</option>
+                    <option value="joy">Joy</option>
+                    <option value="sadness">Sadness</option>
+                    <!-- Add other emotions here -->
+                </select>
+                <select name="language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                </select>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="results-container">
+        <h2>Movie Recommendations</h2>
+        <div class="movie-recommendations">
+            {% for recommendation in recommendations %}
+                <div class="recommendation-card">
+                    <a href="https://www.imdb.com/find?q={{ recommendation|urlencode }}" target="_blank">{{ recommendation }}</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>Music Recommendations</h2>
+        <div class="music-recommendations">
+            {% for song, url in music_recommendations %}
+                <div class="recommendation-card">
+                    <a href="{{ url }}" target="_blank">{{ song }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
